@@ -16,6 +16,12 @@ namespace moiFiler
 
             var openDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
+            var clipboardContext = Clipboard.GetText();
+            if (string.IsNullOrEmpty(clipboardContext) == false)
+            {
+                openDirectory = new DirectoryInfo(clipboardContext);
+            }
+
             this.Loaded += (sender, e) =>
             {
                 this.FileSystems.ItemsSource =

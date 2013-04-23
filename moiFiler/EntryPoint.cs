@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace moiFiler
 {
@@ -7,6 +8,7 @@ namespace moiFiler
         [STAThread]
         static void Main()
         {
+            new Application().Run(new MainWindow());
         }
     }
 }

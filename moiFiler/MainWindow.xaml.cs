@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Windows;
 
 namespace moiFiler
 {
@@ -10,6 +13,15 @@ namespace moiFiler
         public MainWindow()
         {
             this.InitializeComponent();
+
+            var openDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+
+            this.Loaded += (sender, e) =>
+            {
+                this.FileSystems.ItemsSource =
+                    openDirectory.EnumerateFileSystemInfos()
+                    .Select(fileSystemInfo => fileSystemInfo.Name);
+            };
         }
     }
 }

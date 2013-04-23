@@ -182,6 +182,12 @@
     <Content Include="ReportGenerator\Readme.txt" />
     <Content Include="ReportGenerator\ReportGenerator.exe" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\moiFiler\moiFiler.csproj">
+      <Project>{6f168c35-19b5-425e-9ecd-a513051b8e1e}</Project>
+      <Name>moiFiler</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <PostBuildEvent>"$(ProjectDir)OpenCover\OpenCover.Console" -register:user -target:"$(ProjectDir)NUnit\nunit-console.exe" -targetargs:"/nologo $(TargetDir)_Tests.exe"  -output:"$(TargetDir)coverage-result.xml" -mergebyhash  -filter:"+[*]*Clr*"

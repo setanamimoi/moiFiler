@@ -3,10 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="300" Width="300">
     <Grid>
-        <DataGrid Name="FileSystems" IsReadOnly="True" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="名前" Binding="{Binding}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <DockPanel>
+            <TextBox Name="SearchFilter" DockPanel.Dock="Top" />
+            <DataGrid Name="FileSystems" IsReadOnly="True" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="名前" Binding="{Binding}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
     </Grid>
 </Window>

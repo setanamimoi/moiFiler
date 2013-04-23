@@ -14,6 +14,18 @@ namespace moiFiler
         {
             this.InitializeComponent();
 
+            this.SearchFilter.TextChanged += (sender, e) =>
+            {
+                this.FileSystems.Items.Filter = fileSystem =>
+                {
+                    var fileSystemName = fileSystem as string;
+
+                    var searchExpression = this.SearchFilter.Text.ToUpper();
+
+                    return fileSystemName.ToUpper().Contains(searchExpression);
+                };
+            };
+
             var openDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
             var clipboardContext = Clipboard.GetText();

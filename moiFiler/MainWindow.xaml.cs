@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 
 namespace moiFiler
 {
@@ -13,6 +15,14 @@ namespace moiFiler
         public MainWindow()
         {
             this.InitializeComponent();
+
+            var openDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+
+            var clipboardContext = Clipboard.GetText();
+            if (string.IsNullOrEmpty(clipboardContext) == false)
+            {
+                openDirectory = new DirectoryInfo(clipboardContext);
+            }
 
             this.SearchFilter.TextChanged += (sender, e) =>
             {
@@ -26,13 +36,24 @@ namespace moiFiler
                 };
             };
 
-            var openDirectory = new DirectoryInfo(Environment.CurrentDirectory);
-
-            var clipboardContext = Clipboard.GetText();
-            if (string.IsNullOrEmpty(clipboardContext) == false)
+            this.FileSystems.PreviewKeyDown += (sender, e) =>
             {
-                openDirectory = new DirectoryInfo(clipboardContext);
-            }
+                if (Keyboard.IsKeyDown(Key.Enter) == true)
+                {
+                    e.Handled = true;
+
+                    if (this.FileSystems.SelectedIndex == -1)
+                    {
+                        return;
+                    }
+
+                    var fileSystemName = this.FileSystems.SelectedItem as string;
+
+                    using (Process.Start(Path.Combine(openDirectory.FullName, fileSystemName)))
+                    {
+                    }
+                }
+            };
 
             this.Loaded += (sender, e) =>
             {

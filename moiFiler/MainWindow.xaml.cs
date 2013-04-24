@@ -24,15 +24,21 @@ namespace moiFiler
                 openDirectory = new DirectoryInfo(clipboardContext);
             }
 
+            this.Loaded += (sender, e) =>
+            {
+                this.FileSystems.ItemsSource =
+                    openDirectory.EnumerateFileSystemInfos();
+            };
+
             this.SearchFilter.TextChanged += (sender, e) =>
             {
                 this.FileSystems.Items.Filter = fileSystem =>
                 {
-                    var fileSystemName = fileSystem as string;
+                    var fileSystemInfo = fileSystem as FileSystemInfo;
 
                     var searchExpression = this.SearchFilter.Text.ToUpper();
 
-                    return fileSystemName.ToUpper().Contains(searchExpression);
+                    return fileSystemInfo.Name.ToUpper().Contains(searchExpression);
                 };
             };
 
@@ -47,19 +53,12 @@ namespace moiFiler
                         return;
                     }
 
-                    var fileSystemName = this.FileSystems.SelectedItem as string;
+                    var fileSystemInfo = this.FileSystems.SelectedItem as FileSystemInfo;
 
-                    using (Process.Start(Path.Combine(openDirectory.FullName, fileSystemName)))
+                    using (Process.Start(fileSystemInfo.Name))
                     {
                     }
                 }
-            };
-
-            this.Loaded += (sender, e) =>
-            {
-                this.FileSystems.ItemsSource =
-                    openDirectory.EnumerateFileSystemInfos()
-                    .Select(fileSystemInfo => fileSystemInfo.Name);
             };
         }
     }

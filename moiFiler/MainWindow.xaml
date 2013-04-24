@@ -7,7 +7,7 @@
             <TextBox Name="SearchFilter" DockPanel.Dock="Top" />
             <DataGrid Name="FileSystems" IsReadOnly="True" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="名前" Binding="{Binding}" />
+                    <DataGridTextColumn Header="名前" Binding="{Binding Path=Name}" />
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

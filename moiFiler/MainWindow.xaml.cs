@@ -19,20 +19,26 @@ namespace moiFiler
             var openDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
             var clipboardContext = Clipboard.GetText();
-            if (string.IsNullOrEmpty(clipboardContext) == false)
+            if (Directory.Exists(clipboardContext) == true)
             {
                 openDirectory = new DirectoryInfo(clipboardContext);
             }
+
+            this.Loaded += (sender, e) =>
+            {
+                this.FileSystems.ItemsSource =
+                    openDirectory.EnumerateFileSystemInfos();
+            };
 
             this.SearchFilter.TextChanged += (sender, e) =>
             {
                 this.FileSystems.Items.Filter = fileSystem =>
                 {
-                    var fileSystemName = fileSystem as string;
+                    var fileSystemInfo = fileSystem as FileSystemInfo;
 
                     var searchExpression = this.SearchFilter.Text.ToUpper();
 
-                    return fileSystemName.ToUpper().Contains(searchExpression);
+                    return fileSystemInfo.Name.ToUpper().Contains(searchExpression);
                 };
             };
 
@@ -47,19 +53,20 @@ namespace moiFiler
                         return;
                     }
 
-                    var fileSystemName = this.FileSystems.SelectedItem as string;
+                    var fileSystemInfo = this.FileSystems.SelectedItem as FileSystemInfo;
 
-                    using (Process.Start(Path.Combine(openDirectory.FullName, fileSystemName)))
+                    using (Process.Start(fileSystemInfo.FullName))
                     {
                     }
                 }
-            };
+                
+                if (Keyboard.IsKeyDown(Key.Up) == true || Keyboard.IsKeyDown(Key.Down))
+                {
+                    return;
+                }
 
-            this.Loaded += (sender, e) =>
-            {
-                this.FileSystems.ItemsSource =
-                    openDirectory.EnumerateFileSystemInfos()
-                    .Select(fileSystemInfo => fileSystemInfo.Name);
+                this.SearchFilter.Focus();
+
             };
         }
     }

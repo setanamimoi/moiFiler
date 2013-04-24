@@ -55,7 +55,7 @@ namespace moiFiler
 
                     var fileSystemInfo = this.FileSystems.SelectedItem as FileSystemInfo;
 
-                    using (Process.Start(fileSystemInfo.Name))
+                    using (Process.Start(fileSystemInfo.FullName))
                     {
                     }
                 }

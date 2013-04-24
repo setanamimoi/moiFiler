@@ -59,6 +59,14 @@ namespace moiFiler
                     {
                     }
                 }
+                
+                if (Keyboard.IsKeyDown(Key.Up) == true || Keyboard.IsKeyDown(Key.Down))
+                {
+                    return;
+                }
+
+                this.SearchFilter.Focus();
+
             };
         }
     }

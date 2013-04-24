@@ -19,7 +19,7 @@ namespace moiFiler
             var openDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
             var clipboardContext = Clipboard.GetText();
-            if (string.IsNullOrEmpty(clipboardContext) == false)
+            if (Directory.Exists(clipboardContext) == true)
             {
                 openDirectory = new DirectoryInfo(clipboardContext);
             }
